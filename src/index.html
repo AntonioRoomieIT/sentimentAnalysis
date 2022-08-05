@@ -1,0 +1,70 @@
+<!-- Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: Apache-2.0
+ABOUT THIS NODE.JS EXAMPLE: This example works with the AWS SDK for JavaScript version 3 (v3),
+which is available at https://github.com/aws/aws-sdk-js-v3.
+
+Purpose:
+index.html is the front-end HTML code for a tutorial demonstrating how to stream speech using Amazon Transcribe.
+*/
+-->
+
+<!-- snippet-start:[transcribe.HTML.streaming.indexv3] -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="recorder.css">
+    <link rel="stylesheet" type="text/css" href="src_chat/assets.css">
+    <link rel="stylesheet" type="text/css" href="src_chat/switch.css">
+    <script type="text/javascript" src="./main.js"></script>
+
+</head>
+
+<body>
+    <h1>Demo Transcript,Translate & SentimentAnalysis</h1>
+
+    <p>
+        <button id="record" onclick="startRecord()"></button>
+        <button id="stopRecord" disabled onclick="stopRecord()">Stop & clear</button>
+    </p>
+    <h2>Transcription</h2>
+    <div id="output"></div>
+    <!-- <div id="transButton">
+
+        <button id="button1" onclick="translateText()">Translate</button><button id="button2"
+            onclick="clearTranscription()">Clear</button>
+    </div>
+
+    <h2>Translation</h2>
+    <div id="translated"></div> -->
+    <div id="SentimentAnalysis">
+        <section class="msger">
+            <header class="msger-header">
+                <div class="msger-header-title">
+                    <i class="fas fa-comment-alt"></i>REAL TIME TRANSCRIPT
+                </div>
+                <div class="msger-header-options">
+                    <span><i class="fas fa-cog"></i></span>
+                </div>
+            </header>
+            <main class="msger-chat">
+            </main>
+            
+        </section>
+        <div class="toggle-radio">
+            <input type="radio" name="rdo" id="agente" checked>
+            <input type="radio" name="rdo" id="cliente">
+            <div class="switch">
+              <label for="agente" onclick="clickAgent()">Agente</label>
+              <label for="cliente" onclick="clickCustomer()">Cliente</label>
+            </div>
+        </div>
+        
+    </div>
+    <script type="text/javascript" src="./main.js"></script>
+</body>
+
+</html>
+<!-- snippet-end:[transcribe.HTML.streaming.indexv3] -->

@@ -1,0 +1,2 @@
+webpack index.js --mode development --target web --devtool false -o main.js
+node server.js

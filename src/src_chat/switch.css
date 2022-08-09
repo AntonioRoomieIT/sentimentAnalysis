@@ -1,77 +1,91 @@
-body {
-  font-family: sans-serif;
-  font-weight: 800;
-  background: #eee;
+*
+{
+    -webkit-tap-highlight-color: transparent;
 }
-.switch {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 150px;
-  height: 50px;
-  text-align: center;
-  margin: -30px 0 0 -75px;
-  background: #579ffb;
-  transition: all 0.2s ease;
-  border-radius: 5px;
+
+html, body
+{
+    height: 100%;
 }
-.switch span {
-  position: absolute;
-  width: 20px;
-  height: 4px;
-  top: 50%;
-  left: 50%;
-  margin: -2px 0px 0px -4px;
-  background: #fff;
-  display: block;
-  transform: rotate(-45deg);
-  transition: all 0.2s ease;
+
+body
+{
+    margin: 0;
+    background-color: #f3fbff;
 }
-.switch span:after {
-  content: "";
-  display: block;
-  position: absolute;
-  width: 4px;
-  height: 12px;
-  margin-top: -8px;
-  background: #fff;
-  transition: all 0.2s ease;
+
+p
+{
+     position: fixed;
+     top: 0;
+     right: 0;
+     left: 0;
+     padding: 12px;
+     color: #0f2b38;
+     text-align: center;
+     font-size: 14px;
+     font-family: Helvetica, serif;
 }
-input[type=radio] {
-  display: none;
+
+#toggle_checkbox
+{
+    display: none;
 }
-.switch label {
-  cursor: pointer;
-  color: rgba(0,0,0,0.2);
-  width: 60px;
-  line-height: 50px;
-  transition: all 0.2s ease;
+
+label
+{
+    position: absolute;
+    right: 0;
+    left: 0;
+    display: block;
+    width: 140px;
+    height: 0px;
+    margin: 0 auto;
+    transform: translateY(-50%);
+    cursor: pointer;
 }
-label[for=agente] {
-  position: absolute;
-  left: 5px;
-  height: 20px;
+
+label:before
+{
+    top: 8px;
+    left: 8px;
+    width: 56px;
+    height: 56px;
+    border: 3px solid red;
 }
-label[for=cliente] {
-  position: absolute;
-  right: 5px;
+
+label:after
+{
+    top: 0;
+    right: 0;
+    width: 140px;
+    height: 70px;
+    border: 3px solid #103445;
 }
-#cliente:checked ~ .switch {
-  background: #C1B7B7;
+
+label:before, label:after
+{
+    content: "";
+    position: absolute;
+    border-radius: 50px;
+    box-sizing: border-box;
+    transition: 0.5s ease top, 0.5s ease left, 0.5s ease right, 0.5s ease width, 0.5s ease height, 0.5s ease border-color;
 }
-#cliente:checked ~ .switch span {
-  background: #fff;
-  margin-left: -8px;
+
+#toggle_checkbox:checked + label:before
+{
+    top: 0;
+    left: 0;
+    width: 140px;
+    height: 70px;
+    border-color: #143240;
 }
-#cliente:checked ~ .switch span:after {
-  background: #fff;
-  height: 20px;
-  margin-top: -8px;
-  margin-left: 8px;
-}
-#agente:checked ~ .switch label[for=agente] {
-  color: #fff;
-}
-#cliente:checked ~ .switch label[for=cliente] {
-  color: #fff;
+
+#toggle_checkbox:checked + label:after
+{
+    top: 8px;
+    right: 8px;
+    width: 54px;
+    height: 54px;
+    border-color: red;
 }

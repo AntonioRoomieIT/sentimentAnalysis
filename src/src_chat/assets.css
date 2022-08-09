@@ -144,4 +144,21 @@
   
    */
   }
+
+  #titleH1 {
+    text-align: center;
+  }
+  #hanldersControl{
+    text-align: center;
+  }
+  #switchbutton{
+
+  }
+
+  #translation{
+    float: right;
+  }
+  #transcript{
+    float: left;
+  }
   

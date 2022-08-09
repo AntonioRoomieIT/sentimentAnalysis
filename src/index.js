@@ -23,7 +23,7 @@ import { TranslateTextCommand } from "@aws-sdk/client-translate";
 import { SendEmailCommand } from "@aws-sdk/client-ses";
 import MicrophoneStream from "microphone-stream";
 import getUserMedia from "get-user-media-promise";
-import { buildAgentMSG, buildCustomertMSG } from "./src_chat/chatHandler.js";
+import { buildAgentMSG, buildCustomertMSG, buildAgentMSGTranslated, buildCustomertMSGTranslated } from "./src_chat/chatHandler.js";
 global.whoSpeak;
 
 // Helper function to encode PCM audio.
@@ -93,15 +93,24 @@ window.startRecord = async () => {
           // Print results to browser window.
           var phrase = '';
           for (let i = 0; i < noOfResults; i++) {
-            const outputDiv = document.getElementById("output");
             if (result.Alternatives[0].Items[i].Content === '.') {
               let sentiment = await analyzeSentiment(phrase);
-              outputDiv.insertAdjacentHTML("beforeend", phrase);
-              if (global.whoSpeak === 'AGENT') {
-                buildAgentMSG(phrase);
+              let phraseTranslated = await translateText(phrase);
+
+              if (document.getElementById('toggle_checkbox').checked) {
+                buildCustomertMSG(phrase,sentiment);
+                buildCustomertMSGTranslated(phraseTranslated,sentiment);
               } else {
-                buildCustomertMSG(phrase);
+                buildAgentMSG(phrase,sentiment);
+                buildAgentMSGTranslated(phraseTranslated,sentiment);
               }
+              
+
+              // if (global.whoSpeak === 'AGENT') {
+              //   buildAgentMSG(phrase);
+              // } else {
+              //   buildCustomertMSG(phrase);
+              // }
               console.log(phrase + "   " + sentiment);
               phrase = '';
             } else {
@@ -130,27 +139,23 @@ window.stopRecord = function () {
   window.location.reload();
 };
 
-window.translateText = async () => {
+const translateText = async (query) => {
   try {
-    const outPut = document.getElementById("output").innerHTML;
     const data = await comprehendClient.send(
-      new DetectDominantLanguageCommand({ Text: outPut })
+      new DetectDominantLanguageCommand({ Text: query })
     );
-    console.log("Comprehend data");
-    console.log(data);
-    // return data; // Uncomment this for unit tests.
     const langCode = data.Languages[0].LanguageCode;
     try {
       const selectedValue = 'en';
       const translateParams = {
-        Text: outPut,
+        Text: query,
         SourceLanguageCode: langCode /* required */,
         TargetLanguageCode: selectedValue /* required */,
       };
       const data = await translateClient.send(
         new TranslateTextCommand(translateParams)
       );
-      document.getElementById("translated").innerHTML = data.TranslatedText;
+      return data.TranslatedText;
     } catch (err) {
       console.log("Error translating language. ", err);
     }
@@ -162,23 +167,6 @@ window.translateText = async () => {
 window.clearTranscription = async () => {
   document.getElementById("output").innerHTML = "";
 };
-
-window.buildAgentMSG = async (query) => {
-  buildAgentMSG(query);
-};
-
-window.buildCustomertMSG = async () => {
-  buildCustomertMSG("HOLA SOY CLIENTE");
-};
-
-window.clickAgent = async () => {
-  global.whoSpeak = 'AGENT';
-  console.log("Habla Agente");
-}
-window.clickCustomer = async () => {
-  global.whoSpeak = 'CUSTOMER';
-  console.log("Habla cliente");
-}
 
 const analyzeSentiment = async (outPut) => {
   const data = await comprehendClient.send(
